@@ -37,6 +37,8 @@ export interface TriageAssessment {
     respiratory_rate?: number;
     oxygen_saturation?: number;
     pain_scale?: number;
+    weight?: number;
+    height?: number;
   };
   symptoms: string[];
   assessment_notes: string;

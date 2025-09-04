@@ -63,13 +63,26 @@ export function DoctorDashboard() {
 
   const handleQuickLabTest = (patient: any) => {
     setSelectedPatient(patient);
+    setShowPatientSearch(false);
     setShowLabModal(true);
   };
 
   const handleQuickPrescription = (patient: any) => {
     setSelectedPatient(patient);
+    setShowPatientSearch(false);
     setShowPrescriptionModal(true);
   };
+
+  const handleLabTestSuccess = () => {
+    setShowLabModal(false);
+    setSelectedPatient(null);
+  };
+
+  const handlePrescriptionSuccess = () => {
+    setShowPrescriptionModal(false);
+    setSelectedPatient(null);
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -230,10 +243,7 @@ export function DoctorDashboard() {
             setShowLabModal(false);
             setSelectedPatient(null);
           }}
-          onSuccess={() => {
-            setShowLabModal(false);
-            setSelectedPatient(null);
-          }}
+          onSuccess={handleLabTestSuccess}
         />
       )}
 
@@ -244,10 +254,7 @@ export function DoctorDashboard() {
             setShowPrescriptionModal(false);
             setSelectedPatient(null);
           }}
-          onSuccess={() => {
-            setShowPrescriptionModal(false);
-            setSelectedPatient(null);
-          }}
+          onSuccess={handlePrescriptionSuccess}
         />
       )}
     </div>

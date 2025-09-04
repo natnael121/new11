@@ -19,6 +19,8 @@ interface TriageFormData {
   respiratory_rate?: number;
   oxygen_saturation?: number;
   pain_scale?: number;
+  weight?: number;
+  height?: number;
   symptoms: string;
   assessment_notes: string;
   recommended_action: string;
@@ -36,6 +38,8 @@ const schema = yup.object({
   respiratory_rate: yup.number().positive().nullable(),
   oxygen_saturation: yup.number().min(0).max(100).nullable(),
   pain_scale: yup.number().min(0).max(10).nullable(),
+  weight: yup.number().positive().nullable(),
+  height: yup.number().positive().nullable(),
   symptoms: yup.string().required('Symptoms are required'),
   assessment_notes: yup.string().required('Assessment notes are required'),
   recommended_action: yup.string().required('Recommended action is required'),
@@ -77,6 +81,8 @@ export function TriageAssessmentModal({ onClose, onSuccess }: TriageAssessmentMo
         respiratory_rate: data.respiratory_rate,
         oxygen_saturation: data.oxygen_saturation,
         pain_scale: data.pain_scale,
+        weight: data.weight,
+        height: data.height,
       },
       symptoms: data.symptoms.split(',').map(s => s.trim()),
       assessment_notes: data.assessment_notes,
@@ -295,6 +301,32 @@ export function TriageAssessmentModal({ onClose, onSuccess }: TriageAssessmentMo
                     max="10"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="0"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Weight (lbs)
+                  </label>
+                  <input
+                    {...register('weight')}
+                    type="number"
+                    step="0.1"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="150"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Height (inches)
+                  </label>
+                  <input
+                    {...register('height')}
+                    type="number"
+                    step="0.1"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="68"
                   />
                 </div>
               </div>

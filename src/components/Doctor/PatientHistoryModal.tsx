@@ -13,7 +13,7 @@ import { SendPrescriptionModal } from './SendPrescriptionModal';
 import { Patient } from '../../types';
 import { format } from 'date-fns';
 
-interface PatientHistoryFormData {
+interface PatientVisitFormData {
   chief_complaint: string;
   history_of_present_illness: string;
   physical_examination: string;
@@ -30,7 +30,7 @@ interface PatientHistoryFormData {
   oxygen_saturation?: number;
 }
 
-const schema = yup.object({
+const visitSchema = yup.object({
   chief_complaint: yup.string().required('Chief complaint is required'),
   history_of_present_illness: yup.string().required('History of present illness is required'),
   physical_examination: yup.string().required('Physical examination findings are required'),
@@ -66,8 +66,8 @@ export function PatientHistoryModal({ patient, appointmentId, onClose, onSuccess
   const { assessments } = useTriageAssessments(undefined, patient.id);
   const { user } = useAuthContext();
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<PatientHistoryFormData>({
-    resolver: yupResolver(schema),
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<PatientVisitFormData>({
+    resolver: yupResolver(visitSchema),
   });
 
   // Get the latest triage assessment for this patient
@@ -85,7 +85,8 @@ export function PatientHistoryModal({ patient, appointmentId, onClose, onSuccess
       if (vs.oxygen_saturation) setValue('oxygen_saturation', vs.oxygen_saturation);
     }
   }, [latestTriageAssessment, setValue]);
-  const onSubmit = async (data: PatientHistoryFormData) => {
+  
+  const onSubmit = async (data: PatientVisitFormData) => {
     setIsSubmitting(true);
     setError(null);
 
