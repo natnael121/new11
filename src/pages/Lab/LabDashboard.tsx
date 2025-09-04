@@ -5,11 +5,14 @@ import { useLabTests } from '../../hooks/useLabTests';
 import { useLabTestTypes } from '../../hooks/useLabTestTypes';
 import { useAuthContext } from '../../context/AuthContext';
 import { LabTestTypeModal } from '../../components/Lab/LabTestTypeModal';
+import { LabResultsModal } from '../../components/Lab/LabResultsModal';
 import { format } from 'date-fns';
 
 export function LabDashboard() {
   const [activeTab, setActiveTab] = useState<'requested' | 'in_progress' | 'completed' | 'test_types'>('requested');
   const [showTestTypeModal, setShowTestTypeModal] = useState(false);
+  const [showResultsModal, setShowResultsModal] = useState(false);
+  const [selectedTest, setSelectedTest] = useState<any>(null);
   const { user } = useAuthContext();
   const { labTests, loading, updateLabTest } = useLabTests(user?.role === 'lab_technician' ? user.id : undefined);
   const { labTestTypes } = useLabTestTypes();
@@ -208,10 +211,8 @@ export function LabDashboard() {
                   {test.status === 'in_progress' && (
                     <button 
                       onClick={() => {
-                        const results = prompt('Enter test results:');
-                        if (results) {
-                          handleCompleteTest(test.id, results);
-                        }
+                        setSelectedTest(test);
+                        setShowResultsModal(true);
                       }}
                       className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm flex items-center space-x-2"
                     >
@@ -237,6 +238,20 @@ export function LabDashboard() {
         <LabTestTypeModal
           onClose={() => setShowTestTypeModal(false)}
           onSuccess={() => setShowTestTypeModal(false)}
+        />
+      )}
+
+      {showResultsModal && selectedTest && (
+        <LabResultsModal
+          test={selectedTest}
+          onClose={() => {
+            setShowResultsModal(false);
+            setSelectedTest(null);
+          }}
+          onSuccess={() => {
+            setShowResultsModal(false);
+            setSelectedTest(null);
+          }}
         />
       )}
     </div>

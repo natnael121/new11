@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { X, TestTube, Send } from 'lucide-react';
 import { useLabTests } from '../../hooks/useLabTests';
 import { useLabTestTypes } from '../../hooks/useLabTestTypes';
+import { LAB_TEST_OPTIONS } from '../../utils/labTestOptions';
 import { useAuthContext } from '../../context/AuthContext';
 import { Patient } from '../../types';
 
@@ -74,7 +75,7 @@ export function SendLabTestModal({ patient, appointmentId, onClose, onSuccess }:
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full">
+      <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
@@ -109,11 +110,16 @@ export function SendLabTestModal({ patient, appointmentId, onClose, onSuccess }:
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Select a test</option>
+              {LAB_TEST_OPTIONS.map((test, index) => (
+                <option key={index} value={test.name}>
+                  {test.name}
+                </option>
+              ))}
               {labTestTypes
                 .filter(testType => testType.active)
                 .map((testType) => (
                   <option key={testType.id} value={testType.name}>
-                    {testType.name} ({testType.category})
+                    {testType.name} (Custom)
                   </option>
                 ))}
             </select>

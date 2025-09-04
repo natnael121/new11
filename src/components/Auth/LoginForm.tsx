@@ -96,16 +96,10 @@ export function LoginForm({ onLogin, loading }: LoginFormProps) {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
-            Demo Credentials:<br />
-            Admin: admin@clinic.com / admin123<br />
-            Doctor: doctor@clinic.com / doctor123
-          </div>
-
           <div className="mt-6 text-center">
             <Link
               to="/admin-signup"
-              className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium text-sm"
+              className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
             >
               <Building className="w-4 h-4" />
               <span>Create New Clinic</span>
